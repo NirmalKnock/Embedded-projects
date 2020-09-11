@@ -61,7 +61,7 @@ int main(void)
 	*pPortAOutRegister |= (1<<5);
 
 	for(uint32_t i =0;i<300000;i++);
-	*pPortAOutRegister |= ~(1<<5);
+	*pPortAOutRegister  = *pPortAOutRegister & (~(1<<5));
 
 	for(uint32_t i =0;i<4500000;i++);
 	}
