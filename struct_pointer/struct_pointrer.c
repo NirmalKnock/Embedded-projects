@@ -1,10 +1,11 @@
 
-/*
+#if 0
+
  * struct_pointrer.c
  *
  *  Created on: Sep 16, 2020
  *      Author: nirmal kumar
- */
+ #endif 
 
 #include<stdio.h>
 #include<stdint.h>
