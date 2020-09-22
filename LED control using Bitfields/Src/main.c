@@ -30,18 +30,18 @@ int main(void)
 {
 	//Enable the clock for the GPIO port using AHB1ENR register
 	RCC_AHB1ENR volatile *rccahb1enr; // From the strcut
-	rccahb1enr=(RCC_AHB1ENR*)0x40023830; // address of RCC
+	rccahb1enr = RCC_AHB1EN_REG ;   // address of RCC // from header file macros
 	rccahb1enr->gpioa_en =1;
 
 
 	//Creating a pointer variable from the struct
 	GPIOx_MODER volatile *pgpioaMode;
-	pgpioaMode=(GPIOx_MODER*)0x40020000;
+	pgpioaMode = GPIOx_MODER_PORT_A_REG ;// From Macros on header file
 	pgpioaMode->pin_5=1; //configuring the Mode register as Ouput mode
 
 	//creating the pointer variable from the struct for GPIO output register
 	GPIOx_ODR volatile *pgpioaOutput;
-	pgpioaOutput =(GPIOx_ODR*)0x40020014;
+	pgpioaOutput = GPIO_OUTPUT_DATA_REG ;
 
 	//Accessing the pin
 	while(1){
