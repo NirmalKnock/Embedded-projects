@@ -8,6 +8,12 @@
 #ifndef MAIN_H_
 #define MAIN_H_ // These are called as include gaurds
 
+//creating the macros
+#define RCC_AHB1EN_REG  		 ((RCC_AHB1ENR*)0x40023830)  // for RCC_AHB1ENR register to clock the bus
+#define GPIOx_MODER_PORT_A_REG	 ((GPIOx_MODER*)0x40020000)   // For activation GPIO mode as OUTPUT
+#define GPIO_OUTPUT_DATA_REG     ((GPIOx_ODR*)0x40020014)    // For activate the GPIO  as HIGH OUTPUT
+
+
 #include <stdint.h>
 typedef struct{
 	uint32_t gpioa_en		:1;  // 1 means width
