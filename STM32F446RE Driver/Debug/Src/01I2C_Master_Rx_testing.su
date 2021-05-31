@@ -1,0 +1,5 @@
+01I2C_Master_Rx_testing.c:47:6:delay	16	static
+01I2C_Master_Rx_testing.c:53:6:I2C_Gpio_Init	24	static
+01I2C_Master_Rx_testing.c:77:6:I2C_Peri_Init	8	static
+01I2C_Master_Rx_testing.c:95:6:Gpio_Button	24	static
+01I2C_Master_Rx_testing.c:110:5:main	16	static
