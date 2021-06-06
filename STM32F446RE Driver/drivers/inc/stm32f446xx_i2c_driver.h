@@ -32,6 +32,15 @@ typedef struct{
 
 	I2C_RegDef_t *pI2Cx;
 	I2C_Config_t I2C_Config;
+	//For interrupt
+	uint8_t *pTxBuffer;				//Tx buffer address
+	uint8_t *pRxBuffer;				//Rx buffer address
+	uint8_t TxLen;						//Tx len information
+	uint8_t RxLen;						//Rx Length information
+	uint8_t TxRxState;					//State like busy in Tx, ready, busy in Rx
+	uint8_t DevAddr;					//Device address
+	uint8_t RxSize;						//Rx Size
+	uint8_t Sr;								//Repeated start value
 
 }I2C_Handle_t;
 
@@ -67,8 +76,15 @@ typedef struct{
  */
 
 void I2C_PeriClockControl(I2C_RegDef_t *pI2Cx,uint8_t EnorDI);
-
 void I2C_ManagaeAcking(I2C_RegDef_t *pI2Cx,uint8_t EnorDi);
+
+/*
+ * Start and stop conditions
+ */
+void I2C_GenerateStopCondition(I2C_RegDef_t *pI2Cx);
+void I2C_GenerateStartCondition(I2C_RegDef_t *pI2Cx);
+
+
 
 
 /*
@@ -86,16 +102,11 @@ void I2C_MasterReceiverData( I2C_Handle_t *pI2C_Handle, uint8_t *pRxBuffer, uint
 
 
 
-
-
-
-
 /*
  * Data Send and Receive in Interrupt Mode
  */
-uint8_t  I2C_SendDataIT(I2C_Handle_t *pI2C_Handle , uint8_t *pTxBuffer , uint32_t Len)	;	// Base address pointer , TxBuffer pointer, how may bytes to send
-
-uint8_t I2C_ReceiveDataIT(I2C_Handle_t *pI2C_Handle ,  uint8_t  *pRxBuffer , uint32_t Len );			// Base address pointer , RxBuffer pointer, how may bytes to send
+uint8_t  I2C_MasterSendDataIT(I2C_Handle_t *pI2C_Handle , uint8_t *pTxBuffer , uint32_t Len, uint8_t Slaveaddress,uint8_t Sr);	//Which return the application states	// Base address pointer , TxBuffer pointer, how may bytes to send
+uint8_t I2C_MasterReceiveDataIT(I2C_Handle_t *pI2C_Handle ,  uint8_t  *pRxBuffer , uint32_t Len, uint8_t Slaveaddress,uint8_t Sr );			// Base address pointer , RxBuffer pointer, how may bytes to send
 
 
 /*
@@ -103,6 +114,15 @@ uint8_t I2C_ReceiveDataIT(I2C_Handle_t *pI2C_Handle ,  uint8_t  *pRxBuffer , uin
  */
 void I2C_IRQInterruptConfig(uint8_t IRQnumber, uint8_t EnorDI);															//Setting the priority of the IRQ(IRQ number EnorDI)
 void I2C_IRQPriorityConfig(uint8_t IRQnumber ,uint8_t IRQPriority);
+void I2C_EV_IRQHandling(I2C_Handle_t *pI2C_Handle);
+void I2C_ER_IRQHandling(I2C_Handle_t *pI2C_Handle);
+
+
+/*
+ * Communication closing
+ */
+void I2C_CloseReceiveData(I2C_Handle_t *pI2C_Handle);
+void I2C_CloseSendData(I2C_Handle_t  *pI2C_Handle);
 
 /*
  * Peripheral Control API's
@@ -143,6 +163,26 @@ void I2C_ApplicationEventCallback(I2C_Handle_t *pI2C_Handle, uint8_t AppEv	);
  */
 #define I2C_DISABLE_SR							0
 #define I2C_ENABLE_SR								1
+
+/*
+ * I2c Interrput application states
+ */
+#define I2C_READY										0
+#define I2C_BUSY_IN_RX							1
+#define I2C_BUSY_IN_TX							2
+
+/*
+ * Possible API APPLICATIONS events
+ */
+#define I2C_EVENT_TX_CMPLT					0									//I2C event transimission complete
+#define I2C_EVENT_RX_CMPLT					1									//I2C event reception complete
+#define I2C_EV_STOP									2									//I2C event stop
+
+#define I2C_ERROR_BERR 							 3
+#define I2C_ERROR_ARLO 							 4
+#define I2C_ERROR_AF   							 5
+#define I2C_ERROR_OVR 						     6
+#define I2C_ERROR_TIMEOUT					 7
 
 
 #endif /* INC_STM32F446XX_I2C_DRIVER_H_ */

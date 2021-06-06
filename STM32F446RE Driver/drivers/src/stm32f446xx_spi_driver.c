@@ -349,6 +349,95 @@ uint8_t  SPI_ReceiveDataIT(SPI_Handle_t *pSPI_Handle ,  uint8_t  *pRxBuffer , ui
 	return state;
 }
 
+
+/************************************************************************************************
+ *
+  * @fn					- SPI_IRQInterrupt Config
+  *
+  * @brief				- Which Configure the Interrupt in NVIC register
+  *
+  *	@param[in]			-  IRQ Number
+  *	@param[in]			-
+  *	@param[in]			-
+  *
+  *	return				- none
+  *
+  *	@Note				- none
+
+*/
+
+
+void SPI_IRQInterruptConfig(uint8_t IRQnumber, uint8_t EnorDI)
+{
+	if (EnorDI == ENABLE)
+	{
+		if (IRQnumber <=31 )
+		{
+			*NVIC_ISER0 |= (1 << IRQnumber);
+		}
+		else if ( IRQnumber >31 && IRQnumber < 64)				//32 to 63
+		{
+			*NVIC_ISER1 |= ( 1 << (IRQnumber%32));
+		}
+		else if (IRQnumber >= 64 && IRQnumber < 95)				//64 to 95 Program ICER3 register in NVIC
+		{
+			*NVIC_ISER2 |= ( 1 << (IRQnumber %64));
+		}
+	}
+
+	else
+	{
+		//Program to clear in INTERRUPT CLEAER ENABLE REGISTER
+		if (IRQnumber <31)
+		{
+			*NVIC_ICER0 |= ( 1 << IRQnumber);
+		}
+		else if (IRQnumber >=31 && IRQnumber <64)
+		{
+			*NVIC_ICER1 |= ( 1 << (IRQnumber % 32));				//from 32  to 63
+		}
+		else if (IRQnumber >=64 && IRQnumber < 96)
+		{
+			*NVIC_ICER2 |= ( 1 << (IRQnumber %64));
+		}
+	}
+}
+
+
+/************************************************************************************************
+ *
+  * @fn					- SPI_IRQPriorityConfig
+  *
+  * @brief				- Which sets the priority
+  *
+  *	@param[in]			-  SPI Register base address
+  *	@param[in]			-
+  *	@param[in]			-
+  *
+  *	return				- none
+  *
+  *	@Note				- none
+
+*/
+void SPI_IRQPriorityConfig(uint8_t IRQnumber ,uint8_t IRQPriority)
+{
+	uint8_t ipr_section;
+	uint8_t ipr_bitfield;
+	uint8_t shift_amount;
+	ipr_section = IRQnumber / 4;  				//check notes for formula
+	ipr_bitfield = IRQnumber %4;
+
+	shift_amount = (8 * ipr_bitfield) + ( 8 - No_PR_BITS_IMPLEMENTED);				//Because in some MCU have reserved
+
+	*(NVIC_PR_BASE_ADDR + ipr_section ) |= ( IRQnumber <<  shift_amount);
+
+
+}
+
+
+
+
+
 /************************************************************************************************
  *
   * @fn					- SPI_IRQHanfling
@@ -595,7 +684,7 @@ void SPI_CloseTrasnmission(SPI_Handle_t *pSPI_Handle)
 {
 	//Txlen is zero ,so close the SPI communication and inform the application TX is over
 			//So clear the RXNEIE bit
-			//This prevents Interrupt from RXNEIE flag
+			//This prevents Interrupt from RXNE flag
 			pSPI_Handle->pSPIx->CR2 &= ~ (1 << SPI_CR2_RXNEIE);
 
 			//Resetting the Rx Buffer
