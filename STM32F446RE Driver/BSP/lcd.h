@@ -38,7 +38,7 @@ void udelay(uint32_t cnt);
  * Application configurable items
  */
 
-#define LCD_GPIO_PORT		GPIOA						//GPIO PORT 	A
+#define LCD_GPIO_PORT		  GPIOA						//GPIO PORT 	A
 #define LCD_GPIO_RS			GPIO_PIN_NUMBER_0			//RS PIN 		0
 #define LCD_GPIO_RW			GPIO_PIN_NUMBER_1			//RW PIN 		1
 #define LCD_GPIO_EN			GPIO_PIN_NUMBER_4			//ENABLE PIN	4
