@@ -51,11 +51,11 @@ void udelay(uint32_t cnt);
  * LCD Commands
  */
 
-#define LCD_CMD_4DL_2N_5X8		0x28		// 4data line, 2 line used , 5x8 pixel(Function set cmd)
-#define LCD_CMD_DON_CURON		  0x0E		// Display On , cursor On
-#define LCD_CMD_INCADD       	0x06		// increment ram address
-#define LCD_CMD_DIS_CLR			  0x01		// display clear
-#define LCD_CMD_DIS_RETURN_HM	0X02		// display return Home
+#define LCD_CMD_4DL_2N_5X8		    0x28  		// 4data line, 2 line used , 5x8 pixel(Function set cmd)
+#define LCD_CMD_DON_CURON		      0x0E		// Display On , cursor On
+#define LCD_CMD_INCADD          	0x06		// increment ram address
+#define LCD_CMD_DIS_CLR			      0x01		// display clear
+#define LCD_CMD_DIS_RETURN_HM	    0X02		// display return Home
 
 
 
