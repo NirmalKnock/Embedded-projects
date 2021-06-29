@@ -16,8 +16,8 @@
 /*
  * Application configurable Items
  */
-#define DS1307_I2C					I2C1					//I2C1 selected
-#define DS1307_I2C_GPIO_PORT		GPIOB					//AT PORT B
+#define DS1307_I2C				I2C1					//I2C1 selected
+#define DS1307_I2C_GPIO_PORT			GPIOB					//AT PORT B
 #define DS1307_I2C_SDA_PIN			GPIO_PIN_NUMBER_7		//SDA
 #define DS1307_I2C_SCL_PIN			GPIO_PIN_NUMBER_6		//SCL
 #define DS1307_I2C_SPEED			I2C_SCL_SPEED_SM
@@ -41,10 +41,10 @@
 
 #define TIME_FORMAT_12HRS_AM				0
 #define TIME_FORMAT_12HRS_PM				1
-#define TIME_FORMAT_24HRS					2
+#define TIME_FORMAT_24HRS				2
 
 //Device slave address
-#define DS1307_I2C_ADDRESS					0x68
+#define DS1307_I2C_ADDRESS				0x68
 
 
 //Day information
