@@ -2,7 +2,7 @@
  * lcd.c
  *
  *  Created on: Jun 21, 2021
- *      Author: Nirmal Kumar
+ *      Author: Nirmal Kumar A 
  */
 
 #include "lcd.h"
